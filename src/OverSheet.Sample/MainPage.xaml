@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="OverSheet.Sample.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="BottomSheetTemplate" x:Name="BottomSheetTemplate">
+            <VerticalStackLayout
+                Padding="25"
+                Spacing="25"
+                VerticalOptions="Center">
+
+                <Image
+                    HeightRequest="200"
+                    Source="dotnet_bot.png"
+                    WidthRequest="200" />
+
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                    SemanticProperties.HeadingLevel="Level1"
+                    Text="Welcome to .NET Multi-platform App UI" />
+
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="{Binding Count, StringFormat='Current count: {0}'}" />
+
+                <Button SemanticProperties.Hint="Increments the number of times you click" Text="Increment count" />
+
+            </VerticalStackLayout>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25"
+            VerticalOptions="Center">
+
+            <Image
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                Source="dotnet_bot.png" />
+
+            <Label
+                FontSize="32"
+                HorizontalOptions="Center"
+                SemanticProperties.HeadingLevel="Level1"
+                Text="Hello, World!" />
+
+            <Label
+                FontSize="18"
+                HorizontalOptions="Center"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                SemanticProperties.HeadingLevel="Level2"
+                Text="Welcome to .NET Multi-platform App UI" />
+
+            <HorizontalStackLayout Spacing="15">
+                <Button
+                    x:Name="ShowBottomSheet"
+                    Clicked="ShowBottomSheet_Clicked"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Show Bottom Sheet"
+                    Text="Show Bottom Sheet" />
+
+                <Button
+                    x:Name="HideBottomSheet"
+                    Clicked="HideBottomSheet_Clicked"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Hide Bottom Sheet"
+                    Text="Hide Bottom Sheet" />
+
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>
+			net6.0;net6.0-android;net6.0-ios;<!--net6.0-maccatalyst;-->
+		</TargetFrameworks>
+
+		<UseMaui>true</UseMaui>
+		<UseMauiEssentials>true</UseMauiEssentials>
+		<SingleProject>true</SingleProject>
+
+		<PackageId>OverSheet</PackageId>
+		<Description>OverSheet is a beautiful and fluent native platforms bottom sheet with a straigthforward implementation.</Description>
+		<PackageProjectUrl>https://github.com/DanKyungu/OverSheet</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>-->
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>-->
+
+
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>OverSheet</Title>
+		<Company>Dan Kyungu</Company>
+		<Copyright>Dan Kyungu</Copyright>
+		<RepositoryUrl>https://github.com/DanKyungu/OverSheet</RepositoryUrl>
+		<Version>1.0.1-beta</Version>
+		<PackageTags>Maui;BottomSheet;iOS;Android;Dialog</PackageTags>
+		<PackageIcon>OverSheet.png</PackageIcon>
+		<Authors>Dan Kyungu</Authors>
+		<NeutralLanguage>en</NeutralLanguage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Platforms\Android\Resources\drawable\sheet_background.xml" />
+		<None Remove="Platforms\Android\Resources\values\theme.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Platforms\Android\Resources\drawable\sheet_background.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Platforms\Android\Resources\values\theme.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\..\..\..\Pictures\OverSheet.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+
+</Project>
