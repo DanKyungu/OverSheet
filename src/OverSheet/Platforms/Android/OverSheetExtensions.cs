@@ -22,14 +22,11 @@ public static partial class OverSheetExtensions
 
         var viewToShow = content.ToPlatform(mauiContext);
 
-
         SetCornerRadius(context, cornerRadius);
         UpdateBackgroundColor(context,viewToShow);
 
-        BottomSheetBehavior.From(viewToShow);
-
         BottomSheetDialog.SetContentView(viewToShow);
-        //BottomSheetDialog.Show();
+        BottomSheetDialog.Show();
         
     }
 
