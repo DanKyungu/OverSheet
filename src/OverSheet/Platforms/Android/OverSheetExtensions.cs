@@ -31,6 +31,15 @@ public static partial class OverSheetExtensions
 
     }
 
+    /// <summary>
+    /// When use, it instatiate a dialog with its dismissable state onBackground clicked event disabled
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="content"></param>
+    /// <param name="cornerRadius"></param>
+    /// <param name="dismiss"></param>
+    /// <param name="cancelable"></param>
+    /// <exception cref="Exception"></exception>
     public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool dismiss = true, bool cancelable = true)
     {
         if (content is ContentView)
@@ -100,6 +109,13 @@ public static partial class OverSheetExtensions
         BottomSheetDialog?.Dismiss();
     }
 
+    /// <summary>
+    /// Hide and change the content of the dialog by injecting the passed in view
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="view">The view to use</param>
+    /// <param name="peekHeight">the peek height of the dialog</param>
+    /// <exception cref="Exception"></exception>
     public static void HideBottomSheet(this Page page, IView view, int peekHeight = 0)
     {
         int a = 0;
