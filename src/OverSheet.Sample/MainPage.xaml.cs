@@ -13,7 +13,7 @@ namespace OverSheet.Sample
 
         private void ShowBottomSheet_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage.ShowBottomSheet(GetBottomSheetView());
+            Application.Current.MainPage.ShowBottomSheet(GetBottomSheetView(), 40, true);
             SemanticScreenReader.Announce(ShowBottomSheet.Text);
 
         }
@@ -21,7 +21,7 @@ namespace OverSheet.Sample
         private void HideBottomSheet_Clicked(object sender, EventArgs e)
         {
             //this.HideBottomSheet();
-            Application.Current.MainPage.ShowBottomSheet(new FirstPage(), 40);
+            Application.Current.MainPage.ShowBottomSheet(new FirstPage(), 0, false, false);
             SemanticScreenReader.Announce(HideBottomSheet.Text);
         }
 
