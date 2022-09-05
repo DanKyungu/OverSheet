@@ -29,7 +29,7 @@
 		<RepositoryUrl>https://github.com/DanKyungu/OverSheet</RepositoryUrl>
 		<Version>1.0.1-beta</Version>
 		<PackageTags>Maui;BottomSheet;iOS;Android;Dialog</PackageTags>
-		<PackageIcon>OverSheet.png</PackageIcon>
+		<PackageIcon></PackageIcon>
 		<Authors>Dan Kyungu</Authors>
 		<NeutralLanguage>en</NeutralLanguage>
 	</PropertyGroup>
@@ -46,13 +46,6 @@
 		<EmbeddedResource Include="Platforms\Android\Resources\values\theme.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="..\..\..\..\..\Pictures\OverSheet.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
 	</ItemGroup>
 
 
