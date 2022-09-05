@@ -14,7 +14,7 @@ public partial class NewContent1 : ContentView
 
     private void opentBtn_Clicked(object sender, EventArgs e)
     {
-        App.Current.MainPage.ShowBottomSheet(new FirstPage(), 0, false, false);
+        App.Current.MainPage.ExpandDialogSheet(new FirstPage());
 
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Maui.Platform;
 using Android.Graphics.Drawables;
 using Google.Android.Material.BottomSheet;
 using Android.OS;
+using OverSheet.Platforms.Android.Services;
 
 namespace OverSheet;
 
@@ -59,7 +60,9 @@ public static partial class OverSheetExtensions
         BottomSheetDialog.SetContentView(viewToShow);
         BottomSheetDialog.SetCancelable(cancelable);
         BottomSheetDialog.Behavior.FitToContents = false;
-        BottomSheetDialog.Behavior.Draggable = false;
+        BottomSheetDialog.Behavior.Draggable = true;
+        BottomSheetDialog.Behavior.AddBottomSheetCallback(new BottomSheetCallbackExtension());
+        BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateHalfExpanded;
         BottomSheetDialog.Show();
 
     }
@@ -135,7 +138,32 @@ public static partial class OverSheetExtensions
             {
                 System.Diagnostics.Debug.WriteLine(a++, "state");
             }
-            BottomSheetDialog.Behavior.Draggable = true;
+            BottomSheetDialog.Behavior.Draggable = false;
+            BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateCollapsed;
+            BottomSheetDialog.SetContentView(viewToShow);
+        }
+    }
+
+    /// <summary>
+    /// Display the first initialize content on the dialog by changing the state of the Dialog
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="view"></param>
+    /// <exception cref="Exception"></exception>
+    public static void ExpandDialogSheet(this Page page, IView view)
+    {
+        if (BottomSheetDialog is not null)
+        {
+            if (view is ContentView)
+                view = ((ContentView)view).Content;
+
+            var mauiContext = page.Handler?.MauiContext ?? throw new Exception("MauiContext can not be null");
+
+            var viewToShow = view.ToPlatform(mauiContext);
+
+            BottomSheetDialog.DismissWithAnimation = true;
+            BottomSheetDialog.Behavior.Draggable = false;
+            BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateHalfExpanded;
             BottomSheetDialog.SetContentView(viewToShow);
         }
     }
