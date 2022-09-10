@@ -8,6 +8,7 @@
         <DataTemplate x:Key="BottomSheetTemplate" x:Name="BottomSheetTemplate">
             <VerticalStackLayout
                 Padding="25"
+                HeightRequest="100"
                 Spacing="25"
                 VerticalOptions="Center">
 
