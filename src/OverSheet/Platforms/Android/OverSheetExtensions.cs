@@ -79,7 +79,7 @@ public static partial class OverSheetExtensions
         if (Platform.CurrentActivity is not Activity activity)
             return;
 
-        CoordinatorLayout? frameLayout = (CoordinatorLayout?)activity?.FindViewById(80000000);
+        CoordinatorLayout? frameLayout = (CoordinatorLayout?)activity?.FindViewById(Resource.Id.persistent_bottomSheet_container);
         
         if(frameLayout?.ChildCount > 0)
         {
@@ -119,7 +119,7 @@ public static partial class OverSheetExtensions
         if (nativeLayer is null) return;
 
         frameLayout = new CoordinatorLayout(activity?.ApplicationContext);
-        frameLayout.Id = 80000000;
+        frameLayout.Id = Resource.Id.persistent_bottomSheet_container;
 
         var layoutParams = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MatchParent, CoordinatorLayout.MarginLayoutParams.WrapContent);
         layoutParams.Behavior = new BottomSheetBehavior(context, null);
