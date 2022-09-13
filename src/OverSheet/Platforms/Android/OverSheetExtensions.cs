@@ -98,7 +98,7 @@ public static partial class OverSheetExtensions
         }
     }
 
-    public static void PreparePeristentBottomSheet(this Page page)
+    public static void InitializePeristentBottomSheet(this Page page)
     {
         if (Platform.CurrentActivity is not Activity activity)
             return;
