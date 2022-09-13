@@ -30,8 +30,6 @@ public class MainPage : ContentPage
 					Margin = new Thickness(60,40,60,0),
 					BackgroundColor = Color.FromHex("#10A86C"),
                     Command = new Command(() => {
-
-                        App.Current.MainPage.PreparePeristentBottomSheet();
                         App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,false,false);
                     })
 				},

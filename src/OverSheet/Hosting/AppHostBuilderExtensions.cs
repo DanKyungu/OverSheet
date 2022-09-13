@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Maui.LifecycleEvents;
 
 namespace OverSheet.Hosting;
 
@@ -16,11 +12,20 @@ public static class AppHostBuilderExtensions
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>
-    public static MauiAppBuilder ConfigureOverSheet(this MauiAppBuilder builder, Page page)
+    public static MauiAppBuilder ConfigureOverSheet(this MauiAppBuilder builder)
     {
+        builder.ConfigureLifecycleEvents(lifeCycle =>
+        {
 #if ANDROID
-                page.InitializePeristentBottomSheet();
+            lifeCycle.AddAndroid(d =>
+            {
+                d.OnStart((o) =>
+                {
+                    OverSheet.OverSheetExtensions.InitializePeristentBottomSheet();
+                });
+            });
 #endif
+        });
 
         return builder;
     }

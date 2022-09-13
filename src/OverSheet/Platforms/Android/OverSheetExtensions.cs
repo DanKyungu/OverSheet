@@ -98,12 +98,12 @@ public static partial class OverSheetExtensions
         }
     }
 
-    public static void InitializePeristentBottomSheet(this Page page)
+    public static void InitializePeristentBottomSheet()
     {
         if (Platform.CurrentActivity is not Activity activity)
             return;
 
-        CoordinatorLayout? frameLayout = (CoordinatorLayout?)activity?.FindViewById(80000000);
+        CoordinatorLayout? frameLayout = (CoordinatorLayout?)activity?.FindViewById(Resource.Id.persistent_bottomSheet_container);
 
         if (frameLayout != null)
             return;
