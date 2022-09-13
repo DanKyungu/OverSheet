@@ -12,7 +12,7 @@ public static partial class OverSheetExtensions
     private static UISheetPresentationController? SheetPresentationController;
 
     [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Platform Compatibility is handled internally")]
-    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool dismiss = true)
+    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool isPersistent = false)
     {
         if (content is ContentView)
             content = ((ContentView)content).Content;
@@ -28,6 +28,7 @@ public static partial class OverSheetExtensions
 
         if (sheet is not null)
         {
+            SheetPresentationController = sheet;
 
             sheet.Detents = new[]
             {
@@ -36,7 +37,7 @@ public static partial class OverSheetExtensions
             };
 
             sheet.PreferredCornerRadius = cornerRadius;
-            sheet.LargestUndimmedDetentIdentifier = dismiss ? UISheetPresentationControllerDetentIdentifier.Unknown : UISheetPresentationControllerDetentIdentifier.Medium;
+            sheet.LargestUndimmedDetentIdentifier = isPersistent ? UISheetPresentationControllerDetentIdentifier.Medium : UISheetPresentationControllerDetentIdentifier.Unknown;
             sheet.PrefersScrollingExpandsWhenScrolledToEdge = false;
             sheet.PrefersEdgeAttachedInCompactHeight = true;
             sheet.WidthFollowsPreferredContentSizeWhenEdgeAttached = true;
