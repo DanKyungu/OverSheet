@@ -18,6 +18,9 @@ public static partial class OverSheetExtensions
         var bottomSheetStyle = Resource.Style.BottomSheetStyle;
 
         BottomSheetDialog = new BottomSheetDialog(context, bottomSheetStyle);
+
+        BottomSheetDialog.Behavior.Draggable = isDismissable;
+
         var mauiContext = page.Handler?.MauiContext ?? throw new Exception("MauiContext can not be null");
 
         var viewToShow = content.ToPlatform(mauiContext);
