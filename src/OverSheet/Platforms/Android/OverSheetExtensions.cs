@@ -38,6 +38,23 @@ public static partial class OverSheetExtensions
         BottomSheetDialog?.Dismiss();
     }
 
+    public static void ToggleDetent(this Page page)
+    {
+        if (BottomSheetDialog is not null)
+        {
+            BottomSheetDialog.DismissWithAnimation = true;
+
+            if (BottomSheetDialog.Behavior.State != BottomSheetBehavior.StateExpanded)
+            {
+                BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateExpanded;
+            }
+            else
+            {
+                BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateCollapsed;
+            }
+        }
+    }
+
     private static void SetCornerRadius(Context? context, float cornerRadius)
     {
         float[] raddi = { cornerRadius, cornerRadius, cornerRadius, cornerRadius, 0, 0, 0, 0 };

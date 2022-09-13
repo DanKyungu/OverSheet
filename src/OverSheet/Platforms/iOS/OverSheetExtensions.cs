@@ -9,6 +9,7 @@ namespace OverSheet;
 public static partial class OverSheetExtensions
 {
     private static bool IsiOS15OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(15, 0);
+    private static UISheetPresentationController? SheetPresentationController;
 
     [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Platform Compatibility is handled internally")]
     public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool dismiss = true)
@@ -53,5 +54,26 @@ public static partial class OverSheetExtensions
         var viewController = page.ToUIViewController(mauiContext);
 
         viewController.DismissModalViewController(true);
+    }
+
+    public static void ToggleDetent(this Page page)
+    {
+        if (!IsiOS15OrNewer) throw new Exception("OverSheet is only supported for iOS 15.0 and above");
+
+        var mauiContext = page.Handler?.MauiContext ?? throw new Exception("MauiContext can not be null");
+        var viewController = page.ToUIViewController(mauiContext);
+
+        SheetPresentationController?.AnimateChanges(() =>
+        {
+            if (SheetPresentationController.SelectedDetentIdentifier == UISheetPresentationControllerDetentIdentifier.Medium
+                || SheetPresentationController.SelectedDetentIdentifier == UISheetPresentationControllerDetentIdentifier.Unknown)
+            {
+                SheetPresentationController.SelectedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Large;
+            }
+            else
+            {
+                SheetPresentationController.SelectedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
+            }
+        });
     }
 }
