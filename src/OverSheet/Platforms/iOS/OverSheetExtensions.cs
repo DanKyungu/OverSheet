@@ -12,7 +12,7 @@ public static partial class OverSheetExtensions
     private static UISheetPresentationController? SheetPresentationController;
 
     [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Platform Compatibility is handled internally")]
-    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool isPersistent = false)
+    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool isDismissable = true, bool isPersistent = false)
     {
         if (content is ContentView)
             content = ((ContentView)content).Content;
@@ -24,25 +24,39 @@ public static partial class OverSheetExtensions
         var viewController = page.ToUIViewController(mauiContext);
         var viewControllerToPresent = content.ToUIViewController(mauiContext);
 
-        var sheet = viewControllerToPresent.SheetPresentationController;
 
+        var sheet = viewControllerToPresent.SheetPresentationController;
+        
         if (sheet is not null)
         {
             SheetPresentationController = sheet;
 
-            sheet.Detents = new[]
+            if (isDismissable)
             {
-                UISheetPresentationControllerDetent.CreateMediumDetent(),
-                UISheetPresentationControllerDetent.CreateLargeDetent(),
-            };
+                sheet.Detents = new[]
+                {
+                    UISheetPresentationControllerDetent.CreateMediumDetent(),
+                    UISheetPresentationControllerDetent.CreateLargeDetent(),
+                };
+            }
+            else
+            {
+                sheet.Detents = new[]
+                {
+                    UISheetPresentationControllerDetent.CreateMediumDetent(),
+                };
+            }
 
             sheet.PreferredCornerRadius = cornerRadius;
             sheet.LargestUndimmedDetentIdentifier = isPersistent ? UISheetPresentationControllerDetentIdentifier.Medium : UISheetPresentationControllerDetentIdentifier.Unknown;
             sheet.PrefersScrollingExpandsWhenScrolledToEdge = false;
+            sheet.PrefersGrabberVisible = isDismissable;
             sheet.PrefersEdgeAttachedInCompactHeight = true;
             sheet.WidthFollowsPreferredContentSizeWhenEdgeAttached = true;
 
         }
+
+        viewControllerToPresent.ModalInPresentation = !isDismissable;
         viewController.PresentViewController(viewControllerToPresent, animated: true, null);
     }
 

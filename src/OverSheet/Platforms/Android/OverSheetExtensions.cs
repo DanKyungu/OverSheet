@@ -9,7 +9,7 @@ public static partial class OverSheetExtensions
 {
     private static BottomSheetDialog? BottomSheetDialog;
 
-    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool isPersistent = false)
+    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0,bool isDismissable = true, bool isPersistent = false)
     {
         if(content is ContentView)
             content = ((ContentView)content).Content;

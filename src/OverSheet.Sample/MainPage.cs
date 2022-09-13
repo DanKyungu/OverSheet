@@ -28,14 +28,15 @@ public class MainPage : ContentPage
 					VerticalOptions = LayoutOptions.Center,
 					Margin = new Thickness(60,40,60,0),
 					BackgroundColor = Color.FromHex("#10A86C"),
-                    Command = new Command(() => App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,true))
+                    Command = new Command(() => App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,false,false))
 				},
                 new Button()
                 {
                     Text = "Show Presistent BottomSheet",
                     VerticalOptions = LayoutOptions.Center,
                     Margin = new Thickness(60,20,60,0),
-                    BackgroundColor = Color.FromHex("#10A86C")
+                    BackgroundColor = Color.FromHex("#10A86C"),
+                    Command = new Command(() => App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,true))
                 }
             }
 		};
