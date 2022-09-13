@@ -9,6 +9,7 @@ public class MainPage : ContentPage
 {
 	public MainPage()
 	{
+        BackgroundColor = Colors.BlueViolet;
 		Content = new VerticalStackLayout
 		{
 			VerticalOptions = LayoutOptions.Center,
@@ -28,7 +29,11 @@ public class MainPage : ContentPage
 					VerticalOptions = LayoutOptions.Center,
 					Margin = new Thickness(60,40,60,0),
 					BackgroundColor = Color.FromHex("#10A86C"),
-                    Command = new Command(() => App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,false,false))
+                    Command = new Command(() => {
+
+                        App.Current.MainPage.PreparePeristentBottomSheet();
+                        App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,false,false);
+                    })
 				},
                 new Button()
                 {
@@ -36,7 +41,10 @@ public class MainPage : ContentPage
                     VerticalOptions = LayoutOptions.Center,
                     Margin = new Thickness(60,20,60,0),
                     BackgroundColor = Color.FromHex("#10A86C"),
-                    Command = new Command(() => App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,true))
+                    Command = new Command(() =>
+                    {
+                        App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,true, true);
+                    })
                 }
             }
 		};

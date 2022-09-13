@@ -9,7 +9,7 @@ public class BottomSheetPage : ContentView
 			Padding = new Thickness(50),
 			VerticalOptions = LayoutOptions.Center,
 			BackgroundColor = Colors.White,
-			HeightRequest = 750,
+			HeightRequest = 400,
 			Children = {
 				new VerticalStackLayout
 				{
