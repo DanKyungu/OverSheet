@@ -11,7 +11,7 @@ namespace OverSheet;
 
 public static partial class OverSheetExtensions
 {
-    private static bool IsPresenting;
+    private static bool PersistentSheetIsPresenting;
     private static BottomSheetDialog? BottomSheetDialog;
     private static BottomSheetBehavior? CurrentBehavior;
 
@@ -36,7 +36,7 @@ public static partial class OverSheetExtensions
         if (isPersistent)
         {
             ShowPeristentBottomSheet(viewToShow, peekHeight);
-            IsPresenting = true;
+            PersistentSheetIsPresenting = true;
 
             return;
         }
@@ -47,10 +47,13 @@ public static partial class OverSheetExtensions
 
         BottomSheetDialog.Behavior.Draggable = isDismissable;
 
+        if(peekHeight is not null)
+            BottomSheetDialog.Behavior.SetPeekHeight(peekHeight.Value, true);
+
         SetCornerRadius(context, cornerRadius);
         UpdateBackgroundColor(context,viewToShow);
 
-        IsPresenting = true;
+        BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateCollapsed;
 
         BottomSheetDialog.SetContentView(viewToShow);
         BottomSheetDialog.Show();
@@ -61,37 +64,59 @@ public static partial class OverSheetExtensions
         if(BottomSheetDialog is not null)
             BottomSheetDialog.DismissWithAnimation = true;
 
-        if (IsPresenting)
+        if (PersistentSheetIsPresenting)
         {
-            BottomSheetDialog?.Dismiss();
+            PersistentSheetIsPresenting = false;
 
             if (CurrentBehavior != null && CurrentBehavior?.State != BottomSheetBehavior.StateHidden)
             {
                 CurrentBehavior.State = BottomSheetBehavior.StateHidden;
                 return;
             }
-
-            IsPresenting = false;
+        }
+        else
+        {
+            BottomSheetDialog?.Dismiss();
         }
 
     }
 
     public static void ToggleDetent(this Page page)
     {
-        CurrentBehavior.State = BottomSheetBehavior.StateCollapsed;
-
-        if (BottomSheetDialog is not null)
+        if (BottomSheetDialog is not null && CurrentBehavior?.State == BottomSheetBehavior.StateHidden)
         {
-            BottomSheetDialog.DismissWithAnimation = true;
+            ToggleDialogBottomSheet();
+        }
+        else
+        {
+            TogglePersistentBottomSheet();
+        }
 
-            if (BottomSheetDialog.Behavior.State != BottomSheetBehavior.StateExpanded)
-            {
-                BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateExpanded;
-            }
-            else
-            {
-                BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateCollapsed;
-            }
+    }
+
+    private static void TogglePersistentBottomSheet()
+    {
+        if (CurrentBehavior.State == BottomSheetBehavior.StateCollapsed)
+        {
+            CurrentBehavior.State = BottomSheetBehavior.StateExpanded;
+        }
+        else
+        {
+            CurrentBehavior.State = BottomSheetBehavior.StateCollapsed;
+        }
+    }
+
+    private static void ToggleDialogBottomSheet()
+    {
+        BottomSheetDialog.DismissWithAnimation = true;
+
+        if (BottomSheetDialog.Behavior.State != BottomSheetBehavior.StateExpanded)
+        {
+            BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateExpanded;
+        }
+        else
+        {
+            BottomSheetDialog.Behavior.State = BottomSheetBehavior.StateCollapsed;
         }
     }
 
@@ -122,7 +147,7 @@ public static partial class OverSheetExtensions
 
         if (CurrentBehavior?.State == BottomSheetBehavior.StateHidden)
         {
-            CurrentBehavior.State = BottomSheetBehavior.StateExpanded;
+            CurrentBehavior.State = BottomSheetBehavior.StateCollapsed;
             return;
         }
     }
@@ -166,7 +191,7 @@ public static partial class OverSheetExtensions
 
         var behavior = BottomSheetBehavior.From(frameLayout);
         CurrentBehavior = behavior;
-
+        
         behavior.Hideable = true;
         behavior.State = BottomSheetBehavior.StateHidden;
     }

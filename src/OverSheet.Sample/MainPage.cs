@@ -30,7 +30,7 @@ public class MainPage : ContentPage
 					Margin = new Thickness(60,40,60,0),
 					BackgroundColor = Color.FromHex("#10A86C"),
                     Command = new Command(() => {
-                        App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,false,false);
+                        App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,true,false,300);
                     })
 				},
                 new Button()
@@ -41,7 +41,7 @@ public class MainPage : ContentPage
                     BackgroundColor = Color.FromHex("#10A86C"),
                     Command = new Command(() =>
                     {
-                        App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,true, true);
+                        App.Current.MainPage.ShowBottomSheet(new BottomSheetPage(),35,true, true,300);
                     })
                 }
             }
