@@ -12,7 +12,8 @@ public static partial class OverSheetExtensions
     private static UISheetPresentationController? SheetPresentationController;
 
     [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Platform Compatibility is handled internally")]
-    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool isDismissable = true, bool isPersistent = false)
+    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool isDismissable = true, bool isPersistent = false,
+                                       int? peekHeight = null)
     {
         if (content is ContentView)
             content = ((ContentView)content).Content;

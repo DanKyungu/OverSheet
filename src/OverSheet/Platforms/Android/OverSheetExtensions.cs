@@ -1,21 +1,26 @@
-﻿using Android.Content;
-using Microsoft.Maui.Platform;
-using Android.Graphics.Drawables;
-using Google.Android.Material.BottomSheet;
+﻿using Android.App;
 using Android.Views;
-using AndroidX.CoordinatorLayout.Widget;
-using Android.App;
+using Android.Content;
+using Microsoft.Maui.Platform;
 using View = Android.Views.View;
-using Android.Widget;
+using Android.Graphics.Drawables;
+using AndroidX.CoordinatorLayout.Widget;
+using Google.Android.Material.BottomSheet;
 
 namespace OverSheet;
 
 public static partial class OverSheetExtensions
 {
+    private static bool IsPresenting;
     private static BottomSheetDialog? BottomSheetDialog;
-    private static BottomSheetBehavior CurrentBehavior;
+    private static BottomSheetBehavior? CurrentBehavior;
 
-    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0,bool isDismissable = true, bool isPersistent = false)
+    public static void ShowBottomSheet(this Page page,
+                                       IView content,
+                                       float cornerRadius = 0,
+                                       bool isDismissable = true,
+                                       bool isPersistent = false,
+                                       int? peekHeight = null)
     {
         if(content is ContentView)
             content = ((ContentView)content).Content;
@@ -27,9 +32,12 @@ public static partial class OverSheetExtensions
 
         var viewToShow = content.ToPlatform(mauiContext);
 
+
         if (isPersistent)
         {
-            ShowPeristentBottomSheet(viewToShow);
+            ShowPeristentBottomSheet(viewToShow, peekHeight);
+            IsPresenting = true;
+
             return;
         }
 
@@ -42,9 +50,10 @@ public static partial class OverSheetExtensions
         SetCornerRadius(context, cornerRadius);
         UpdateBackgroundColor(context,viewToShow);
 
+        IsPresenting = true;
+
         BottomSheetDialog.SetContentView(viewToShow);
         BottomSheetDialog.Show();
-        
     }
 
     public static void HideBottomSheet(this Page page)
@@ -52,7 +61,19 @@ public static partial class OverSheetExtensions
         if(BottomSheetDialog is not null)
             BottomSheetDialog.DismissWithAnimation = true;
 
-        BottomSheetDialog?.Dismiss();
+        if (IsPresenting)
+        {
+            BottomSheetDialog?.Dismiss();
+
+            if (CurrentBehavior != null && CurrentBehavior?.State != BottomSheetBehavior.StateHidden)
+            {
+                CurrentBehavior.State = BottomSheetBehavior.StateHidden;
+                return;
+            }
+
+            IsPresenting = false;
+        }
+
     }
 
     public static void ToggleDetent(this Page page)
@@ -74,20 +95,28 @@ public static partial class OverSheetExtensions
         }
     }
 
-    private static void ShowPeristentBottomSheet(View view)
+    private static void ShowPeristentBottomSheet(View view, int? peekHeight)
     {
         if (Platform.CurrentActivity is not Activity activity)
             return;
+
+        SetPeekHeight(peekHeight);
+
+        var context = OverSheetServices
+            .GetCurrentContext() ?? throw new Exception("AndroidContext can not be null");
 
         CoordinatorLayout? frameLayout = (CoordinatorLayout?)activity?.FindViewById(Resource.Id.persistent_bottomSheet_container);
         
         if(frameLayout?.ChildCount > 0)
         {
             frameLayout.RemoveAllViews();
+
+            UpdateBackgroundColor(context, view);
             frameLayout?.AddView(view);
         }
         else
         {
+            UpdateBackgroundColor(context, view);
             frameLayout?.AddView(view);
         }
 
@@ -95,6 +124,14 @@ public static partial class OverSheetExtensions
         {
             CurrentBehavior.State = BottomSheetBehavior.StateExpanded;
             return;
+        }
+    }
+
+    private static void SetPeekHeight(int? peekHeight)
+    {
+        if (CurrentBehavior != null && peekHeight != null)
+        {
+            CurrentBehavior.SetPeekHeight(peekHeight.Value, true);
         }
     }
 
@@ -130,7 +167,6 @@ public static partial class OverSheetExtensions
         var behavior = BottomSheetBehavior.From(frameLayout);
         CurrentBehavior = behavior;
 
-        behavior.SetPeekHeight(200, true);
         behavior.Hideable = true;
         behavior.State = BottomSheetBehavior.StateHidden;
     }
