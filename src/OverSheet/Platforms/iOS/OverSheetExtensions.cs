@@ -9,9 +9,11 @@ namespace OverSheet;
 public static partial class OverSheetExtensions
 {
     private static bool IsiOS15OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(15, 0);
+    private static UISheetPresentationController? SheetPresentationController;
 
     [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Platform Compatibility is handled internally")]
-    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool dismiss = true)
+    public static void ShowBottomSheet(this Page page, IView content, float cornerRadius = 0, bool isDismissable = true, bool isPersistent = false,
+                                       int? peekHeight = null)
     {
         if (content is ContentView)
             content = ((ContentView)content).Content;
@@ -23,24 +25,39 @@ public static partial class OverSheetExtensions
         var viewController = page.ToUIViewController(mauiContext);
         var viewControllerToPresent = content.ToUIViewController(mauiContext);
 
-        var sheet = viewControllerToPresent.SheetPresentationController;
 
+        var sheet = viewControllerToPresent.SheetPresentationController;
+        
         if (sheet is not null)
         {
+            SheetPresentationController = sheet;
 
-            sheet.Detents = new[]
+            if (isDismissable)
             {
-                UISheetPresentationControllerDetent.CreateMediumDetent(),
-                UISheetPresentationControllerDetent.CreateLargeDetent(),
-            };
+                sheet.Detents = new[]
+                {
+                    UISheetPresentationControllerDetent.CreateMediumDetent(),
+                    UISheetPresentationControllerDetent.CreateLargeDetent(),
+                };
+            }
+            else
+            {
+                sheet.Detents = new[]
+                {
+                    UISheetPresentationControllerDetent.CreateMediumDetent(),
+                };
+            }
 
             sheet.PreferredCornerRadius = cornerRadius;
-            sheet.LargestUndimmedDetentIdentifier = dismiss ? UISheetPresentationControllerDetentIdentifier.Unknown : UISheetPresentationControllerDetentIdentifier.Medium;
+            sheet.LargestUndimmedDetentIdentifier = isPersistent ? UISheetPresentationControllerDetentIdentifier.Medium : UISheetPresentationControllerDetentIdentifier.Unknown;
             sheet.PrefersScrollingExpandsWhenScrolledToEdge = false;
+            sheet.PrefersGrabberVisible = isDismissable;
             sheet.PrefersEdgeAttachedInCompactHeight = true;
             sheet.WidthFollowsPreferredContentSizeWhenEdgeAttached = true;
 
         }
+
+        viewControllerToPresent.ModalInPresentation = !isDismissable;
         viewController.PresentViewController(viewControllerToPresent, animated: true, null);
     }
 
@@ -53,5 +70,26 @@ public static partial class OverSheetExtensions
         var viewController = page.ToUIViewController(mauiContext);
 
         viewController.DismissModalViewController(true);
+    }
+
+    public static void ToggleDetent(this Page page)
+    {
+        if (!IsiOS15OrNewer) throw new Exception("OverSheet is only supported for iOS 15.0 and above");
+
+        var mauiContext = page.Handler?.MauiContext ?? throw new Exception("MauiContext can not be null");
+        var viewController = page.ToUIViewController(mauiContext);
+
+        SheetPresentationController?.AnimateChanges(() =>
+        {
+            if (SheetPresentationController.SelectedDetentIdentifier == UISheetPresentationControllerDetentIdentifier.Medium
+                || SheetPresentationController.SelectedDetentIdentifier == UISheetPresentationControllerDetentIdentifier.Unknown)
+            {
+                SheetPresentationController.SelectedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Large;
+            }
+            else
+            {
+                SheetPresentationController.SelectedDetentIdentifier = UISheetPresentationControllerDetentIdentifier.Medium;
+            }
+        });
     }
 }

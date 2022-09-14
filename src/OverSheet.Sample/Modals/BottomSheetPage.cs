@@ -1,8 +1,8 @@
 namespace OverSheet.Sample.Modals;
 
-public class FirstPage : ContentView
+public class BottomSheetPage : ContentView
 {
-	public FirstPage()
+	public BottomSheetPage()
 	{
 		Content = new Grid
 		{
@@ -13,7 +13,7 @@ public class FirstPage : ContentView
 			Children = {
 				new VerticalStackLayout
 				{
-                    VerticalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Start,
                     Spacing = 20,
                     Children =
 					{
@@ -24,13 +24,18 @@ public class FirstPage : ContentView
                             FontAttributes = FontAttributes.Bold,
                             FontSize = 35,
                             TextColor = Colors.Black,
-                            Text = "First Page",
-
+                            Text = "Bottom Sheet",
+                            Margin = new Thickness(0,20,0,0),
                         },
                         new Button
                         {
                             Text = "Dismiss",
                             Command = new Command(() => App.Current.MainPage.HideBottomSheet())
+                        },
+                        new Button
+                        {
+                            Text = "Toggle Detent",
+                            Command = new Command(() => App.Current.MainPage.ToggleDetent())
                         }
                     }
                 }
