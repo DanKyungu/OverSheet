@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>
@@ -27,7 +27,7 @@
 		<Company>Dan Kyungu</Company>
 		<Copyright>Dan Kyungu</Copyright>
 		<RepositoryUrl>https://github.com/DanKyungu/OverSheet</RepositoryUrl>
-		<Version>1.0.2-beta</Version>
+		<Version>1.1.0-beta</Version>
 		<PackageTags>Maui;BottomSheet;iOS;Android;Dialog</PackageTags>
 		<PackageIcon>OverSheet.png</PackageIcon>
 		<Authors>Dan Kyungu</Authors>
