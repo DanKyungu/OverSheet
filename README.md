@@ -4,6 +4,7 @@
 **OverSheet** - is a cross platform plugin for [MAUI](https://dotnet.microsoft.com/en-us/apps/maui) which allow you to show a native BottomSheet coming with a fluent and native performance for each device.
 
 **Warning:** OverSheet is only avaible for Android and iOS (15.0 and above).
+
 ## Availabity
 |Platform|Availabilty  |
 |--|--|
@@ -15,24 +16,53 @@
 -   Available on NuGet:  [https://www.nuget.org/packages/OverSheet](https://www.nuget.org/packages/OverSheet)  
 - Add it to your MAUI project
 
-## Development
-OverSheet implement two method :
- 
+## Getting Started
+1.  Add OverSheet nuget package to your project
+
+2. Add ConfigureOverSheet() to your MAUI program builder :
+
+   `var builder = MauiApp.CreateBuilder();
+               builder
+                   .UseMauiApp<App>()
+                   .ConfigureOverSheet();`
+
+   
+
+3. OverSheet main methods :
+
 **ShowBottomSheet :**
-```
+
+```c#
 Application.Current.MainPage.ShowBottomSheet(new Page());
 ```
 
+ShowBottomSheet Parameters :
+
+| Parameter     | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| Content       | View or Page to set as BottomSheet content.                  |
+| CornerRadius  | BottomSheet CornerRadius.                                    |
+| IsDismissable | Indicate if the BottomSheet should be dismissable by the user or not. |
+| IsPersistent  | Indicate if the BottomSheet should be without overlay and let user interact with the user interface in the back. |
+| PeekHeight    | Specify BottomSheet peek height (only for android)           |
+
 **HideBottomSheet :**
-```
+
+```c#
 Application.Current.MainPage.HideBottomSheet();
 ```
+**ToggleDetent:**
+
+Toggle the BottomSheet state between Collapsed state and Expanded
+
+`Application.Current.MainPage.ToggleDetent();`
+
 ## Created By: Dan Kyungu
 
 -   LinkedIn:  [Dan Kyungu](https://www.linkedin.com/in/dan-kyungu)
 -   Twitter:  [@dankyungu](https://twitter.com/dankyungu)
 
-## [](https://github.com/rotorgames/Rg.Plugins.Popup#license)License
+## License
 
 The MIT License
 
