@@ -55,7 +55,9 @@ Application.Current.MainPage.HideBottomSheet();
 
 Toggle the BottomSheet state between Collapsed state and Expanded
 
-`Application.Current.MainPage.ToggleDetent();`
+```c#
+Application.Current.MainPage.ToggleDetent();
+```
 
 ## Created By: Dan Kyungu
 
