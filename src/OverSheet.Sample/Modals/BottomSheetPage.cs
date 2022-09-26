@@ -9,33 +9,37 @@ public class BottomSheetPage : ContentView
 			Padding = new Thickness(50),
 			VerticalOptions = LayoutOptions.Center,
 			BackgroundColor = Colors.White,
-			HeightRequest = 400,
 			Children = {
-				new VerticalStackLayout
+				new ScrollView
 				{
-                    VerticalOptions = LayoutOptions.Start,
-                    Spacing = 20,
-                    Children =
-					{
-                        new Label
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Always,
+                    HeightRequest = 400,
+                    Content = new VerticalStackLayout
+                    {
+                        VerticalOptions = LayoutOptions.Start,
+                        Spacing = 20,
+                        Children =
                         {
-                            HorizontalOptions = LayoutOptions.Center,
-                            VerticalOptions = LayoutOptions.Center,
-                            FontAttributes = FontAttributes.Bold,
-                            FontSize = 35,
-                            TextColor = Colors.Black,
-                            Text = "Bottom Sheet",
-                            Margin = new Thickness(0,20,0,0),
-                        },
-                        new Button
-                        {
-                            Text = "Dismiss",
-                            Command = new Command(() => App.Current.MainPage.HideBottomSheet())
-                        },
-                        new Button
-                        {
-                            Text = "Toggle Detent",
-                            Command = new Command(() => App.Current.MainPage.ToggleDetent())
+                            new Label
+                            {
+                                HorizontalOptions = LayoutOptions.Center,
+                                VerticalOptions = LayoutOptions.Center,
+                                FontAttributes = FontAttributes.Bold,
+                                FontSize = 35,
+                                TextColor = Colors.Black,
+                                Text = "Bottom Sheet",
+                                Margin = new Thickness(0,20,0,0),
+                            },
+                            new Button
+                            {
+                                Text = "Dismiss",
+                                Command = new Command(() => App.Current.MainPage.HideBottomSheet())
+                            },
+                            new Button
+                            {
+                                Text = "Toggle Detent",
+                                Command = new Command(() => App.Current.MainPage.ToggleDetent())
+                            }
                         }
                     }
                 }
